@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: Protocol Implementation for Comments api request and response
+
 struct CommentsApi: APIHandler {
     
     func makeRequest(from param: [String: Any]) -> URLRequest? {

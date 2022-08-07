@@ -8,20 +8,30 @@ import UIKit
 
 class CommentsViewController: UIViewController {
     
+    //MARK: - Outlet
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var srchBar: UISearchBar!
+
+    //MARK: - Variable Declaration
     public var postId: Int?
     private var dataSource: [CommentsModel]?
     public var commentsViewModel = CommentsViewModel()
     private var filteredDataSource: [CommentsModel]?
     
-    @IBOutlet weak var srchBar: UISearchBar!
+    //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Comments"
-        tableView.register(UINib(nibName: AppConstants.CellIdentifiers.kPostCell, bundle: nil), forCellReuseIdentifier: AppConstants.CellIdentifiers.kPostCell)
+        registerTableCells()
         fetchCommentsData()
     }
     
+    //MARK: - Internal Methods
+    func registerTableCells() {
+        tableView.register(UINib(nibName: AppConstants.CellIdentifiers.kPostCell, bundle: nil), forCellReuseIdentifier: AppConstants.CellIdentifiers.kPostCell)
+    }
+    
+    // MARK: -  This method fetches api response from view model
     func fetchCommentsData() {
         guard let postId = postId else {
             let alert = UIAlertController(title: "Error",
@@ -52,6 +62,7 @@ class CommentsViewController: UIViewController {
     }
 }
 
+// MARK: Extension for tableView delegate and datasource methods
 extension CommentsViewController: UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    numberOfRowsInSection
@@ -80,6 +91,7 @@ extension CommentsViewController: UITableViewDataSource,UITableViewDelegate {
     }
 }
 
+// MARK: Extension for Search Delegate methods
 extension CommentsViewController: UISearchBarDelegate {
     // This method updates filteredData based on the text in the Search Box
     func searchBar(_ searchBar: UISearchBar,

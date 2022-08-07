@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: Convert generic api response to specific model and send to controller using completion handler here
+
 struct PostsViewModel {
     func getAPIData(param: [String: Any], completion: @escaping ([PostsModel]?, ServiceError?) -> ()) {
         let request = PostsApi()

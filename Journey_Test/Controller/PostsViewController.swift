@@ -7,25 +7,34 @@
 import UIKit
 
 class PostsViewController: UIViewController {
+    //MARK: - Outlet
+    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var tableView: UITableView!
+    
+    //MARK: - Variable Declaration
     public var postsViewModel = PostsViewModel()
     private var dataSource: [PostsModel]?
     private var filteredDataSource: [PostsModel]?
 
-    @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var tableView: UITableView!
+    //MARK: - View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Posts"
-        tableView.register(UINib(nibName: AppConstants.CellIdentifiers.kPostCell, bundle: nil),
-                           forCellReuseIdentifier: AppConstants.CellIdentifiers.kPostCell)
+        registerTableCells()
         fetchPostsData()
-        // Do any additional setup after loading the view.
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
     
+    //MARK: - Internal Methods
+    func registerTableCells(){
+        tableView.register(UINib(nibName: AppConstants.CellIdentifiers.kPostCell, bundle: nil),
+                           forCellReuseIdentifier: AppConstants.CellIdentifiers.kPostCell)
+    }
+    
+    // MARK: -  This method fetches api response from view model
     func fetchPostsData() {
         postsViewModel.getAPIData(param: [:],
                                   completion: {[weak self] (model, error) in
@@ -49,6 +58,7 @@ class PostsViewController: UIViewController {
     }
 }
 
+// MARK: Extension for tableView delegate and datasource methods
 extension PostsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return filteredDataSource?.count ?? 0
@@ -75,6 +85,7 @@ extension PostsViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+// MARK: Extension for Search posts
 extension PostsViewController: UISearchBarDelegate {
     
     // This method updates filteredData based on the text in the Search Box

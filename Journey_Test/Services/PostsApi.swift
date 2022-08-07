@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: Protocol Implementation for Posts api request and response
+
 struct PostsApi: APIHandler {
     
     func makeRequest(from param: [String: Any]) -> URLRequest? {
